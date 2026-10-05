@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Expense Tracker</title>
+    <!-- Cashfree SDK for Sandbox Payment Integration -->
+    <script src="https://sdk.cashfree.com/js/v3/cashfree.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 900px;
+            margin: 20px auto;
+            padding: 0 20px;
+            color: #333;
+        }
+
+        h2, h3 {
+            margin-bottom: 15px;
+        }
+
+        .banner {
+            background-color: #d4edda;
+            color: #155724;
+            padding: 12px 16px;
+            border-radius: 6px;
+            margin-bottom: 20px;
+            display: none;
+            font-weight: bold;
+        }
+
+        .dashboard-actions {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        button {
+            padding: 10px 16px;
+            font-size: 14px;
+            border: 1px solid #ccc;
+            background-color: #f8f9fa;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        button:hover:not(:disabled) {
+            background-color: #e2e6ea;
+        }
+
+        button:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        .btn-primary {
+            background-color: #007bff;
+            color: white;
+            border: none;
+        }
+
+        .btn-primary:hover:not(:disabled) {
+            background-color: #0069d9;
+        }
+
+        form {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 25px;
+            flex-wrap: wrap;
+        }
+
+        form input, form select {
+            padding: 10px;
+            font-size: 14px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+        }
+
+        th, td {
+            border: 1px solid #e0e0e0;
+            padding: 12px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f4f4f4;
+        }
+
+        .insights-card {
+            background-color: #f0f4f8;
+            border-radius: 8px;
+            padding: 20px;
+            margin-top: 30px;
+        }
+
+        .insights-card ul {
+            padding-left: 20px;
+            margin-top: 10px;
+        }
+
+        #pagination-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 8px;
+            margin-top: 20px;
+        }
+
+        #pagination-container button {
+            padding: 6px 12px;
+        }
+
+        .page-active {
+            background-color: #007bff !important;
+            color: white !important;
+            border-color: #007bff !important;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+    <h2>Expense Tracker</h2>
+
+    <!-- Premium Member Banner -->
+    <div id="premium-banner" class="banner">
+        You are a premium user now
+    </div>
+
+    <!-- Actions & Membership Toolbar -->
+    <div class="dashboard-actions">
+        <button id="buy-premium-btn" onclick="buyPremium()" class="btn-primary">
+            👑 Buy Premium
+        </button>
+
+        <button id="view-reports-btn" onclick="window.location.href='reports.html'">
+            📊 View Premium Reports
+        </button>
+
+        <button id="download-expenses-btn" disabled>
+            📥 Download Expenses
+        </button>
+
+        <button id="show-leaderboard-btn" style="display: none;">
+            🏆 Show Leaderboard
+        </button>
+    </div>
+
+    <!-- Add Expense Form -->
+    <form id="expense-form">
+        <input type="number" id="amount" placeholder="Amount (e.g. 150)" required />
+        <input type="text" id="description" placeholder="Description (e.g. Groceries)" required />
+        
+        <select id="category" required>
+            <option value="auto">🤖 Auto-Detect (AI)</option>
+            <option value="Food">Food</option>
+            <option value="Movie">Movie</option>
+            <option value="Transport">Transport</option>
+            <option value="Groceries">Groceries</option>
+            <option value="Bills">Bills</option>
+            <option value="Miscellaneous">Miscellaneous</option>
+        </select>
+
+        <button type="submit" id="add-btn" class="btn-primary">Add Expense</button>
+    </form>
+
+    <!-- Expenses List Table -->
+    <h3>Your Expenses</h3>
+    <table>
+        <thead>
+            <tr>
+                <th>Amount</th>
+                <th>Description</th>
+                <th>Category</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody id="expense-list">
+            <!-- Dynamically populated expenses -->
+        </tbody>
+    </table>
+
+    <!-- Pagination Controls -->
+    <div id="pagination-container">
+        <!-- Rendered dynamically by expense.js -->
+    </div>
+
+    <!-- AI Insights Section -->
+    <div class="insights-card">
+        <h3>🤖 AI Spending Insights</h3>
+        <button id="get-insights-btn" onclick="fetchAIInsights()">Get AI Insights</button>
+        <ul id="insights-list">
+            <li>Click button above to analyze your spending pattern.</li>
+        </ul>
+    </div>
+
+    <!-- Leaderboard Container -->
+    <div id="leaderboard-section" style="margin-top: 30px;">
+        <h3>Leaderboard</h3>
+        <ul id="leaderboard-list">
+            <!-- Rendered when "Show Leaderboard" is clicked -->
+        </ul>
+    </div>
+
+    <script src="expense.js"></script>
+</body>
+</html>

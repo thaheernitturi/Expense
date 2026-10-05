@@ -1,0 +1,364 @@
+
+/* =========================
+   Global Styles
+========================= */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    background: #f4f6f9;
+    color: #333;
+    min-height: 100vh;
+    padding: 30px;
+}
+
+
+/* =========================
+   Top Header
+========================= */
+
+body > div:first-of-type {
+    max-width: 1000px;
+    margin: 0 auto 20px auto;
+    background: white;
+    padding: 20px 25px;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+}
+
+body > div:first-of-type h2 {
+    color: #2c3e50;
+    font-size: 28px;
+}
+
+
+/* =========================
+   Premium Button
+========================= */
+
+#buy-premium-btn {
+    background-color: #f39c12 !important;
+    color: white;
+    border: none;
+    padding: 11px 18px;
+    border-radius: 7px;
+    font-size: 14px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.3s ease;
+}
+
+#buy-premium-btn:hover {
+    background-color: #d68910 !important;
+    transform: translateY(-1px);
+}
+
+
+/* =========================
+   Premium Banner
+========================= */
+
+#premium-banner {
+    max-width: 1000px;
+    margin: 0 auto 20px auto;
+    border-radius: 8px;
+    color: #6b4f00;
+    text-align: center;
+}
+
+
+/* =========================
+   Leaderboard Button
+========================= */
+
+#show-leaderboard-btn {
+    display: block;
+    max-width: 1000px;
+    margin: 0 auto 15px auto;
+    background: #3498db;
+    color: white;
+    border: none;
+    padding: 10px 18px;
+    border-radius: 7px;
+    font-size: 14px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.3s ease;
+}
+
+#show-leaderboard-btn:hover {
+    background: #2980b9;
+}
+
+
+/* =========================
+   Leaderboard
+========================= */
+
+#leaderboard-list {
+    max-width: 1000px;
+    margin: 0 auto 25px auto;
+    padding: 0;
+    list-style: none;
+}
+
+#leaderboard-list li {
+    background: white;
+    margin-bottom: 8px;
+    padding: 12px 16px;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+
+/* =========================
+   Expense Container
+========================= */
+
+.expense-container {
+    max-width: 1000px;
+    margin: 0 auto;
+    background: white;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+}
+
+.expense-container h2 {
+    color: #2c3e50;
+    margin-bottom: 25px;
+    font-size: 26px;
+}
+
+.expense-container h3 {
+    color: #34495e;
+    margin: 30px 0 15px 0;
+}
+
+
+/* =========================
+   Form
+========================= */
+
+#expense-form {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 18px;
+    align-items: end;
+}
+
+.input-group {
+    display: flex;
+    flex-direction: column;
+}
+
+.input-group label {
+    font-size: 14px;
+    font-weight: bold;
+    color: #555;
+    margin-bottom: 7px;
+}
+
+.input-group input,
+.input-group select {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 7px;
+    font-size: 14px;
+    outline: none;
+    background: white;
+    transition: 0.2s ease;
+}
+
+.input-group input:focus,
+.input-group select:focus {
+    border-color: #3498db;
+    box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.12);
+}
+
+
+/* =========================
+   Add Expense Button
+========================= */
+
+#expense-form button {
+    background: #27ae60;
+    color: white;
+    border: none;
+    padding: 12px 18px;
+    border-radius: 7px;
+    font-size: 14px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.3s ease;
+}
+
+#expense-form button:hover {
+    background: #219150;
+    transform: translateY(-1px);
+}
+
+
+/* =========================
+   Message
+========================= */
+
+#message {
+    margin-top: 15px;
+    font-size: 14px;
+    font-weight: bold;
+    min-height: 20px;
+}
+
+
+/* =========================
+   Expense Table
+========================= */
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+    overflow: hidden;
+    border-radius: 8px;
+}
+
+thead {
+    background: #2c3e50;
+    color: white;
+}
+
+th {
+    padding: 14px;
+    text-align: left;
+    font-size: 14px;
+}
+
+td {
+    padding: 13px 14px;
+    border-bottom: 1px solid #eee;
+    font-size: 14px;
+}
+
+tbody tr:hover {
+    background: #f8f9fa;
+}
+
+tbody tr:last-child td {
+    border-bottom: none;
+}
+
+
+/* =========================
+   Action Buttons
+========================= */
+
+/*
+   These styles work with common
+   Edit/Delete buttons generated
+   dynamically by expense.js.
+*/
+
+#expense-list button {
+    border: none;
+    padding: 7px 12px;
+    margin-right: 5px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+#expense-list button:hover {
+    opacity: 0.85;
+}
+
+
+/* =========================
+   Responsive Design
+========================= */
+
+@media (max-width: 768px) {
+
+    body {
+        padding: 15px;
+    }
+
+    body > div:first-of-type {
+        padding: 18px;
+    }
+
+    body > div:first-of-type h2 {
+        font-size: 22px;
+    }
+
+    .expense-container {
+        padding: 20px;
+    }
+
+    #expense-form {
+        grid-template-columns: 1fr;
+    }
+
+    table {
+        display: block;
+        overflow-x: auto;
+        white-space: nowrap;
+    }
+
+    th,
+    td {
+        padding: 10px;
+    }
+
+}
+
+
+/* =========================
+   Small Mobile Screens
+========================= */
+
+@media (max-width: 480px) {
+
+    body {
+        padding: 10px;
+    }
+
+    body > div:first-of-type {
+        flex-direction: column;
+        gap: 15px;
+        align-items: stretch !important;
+        text-align: center;
+    }
+
+    #buy-premium-btn {
+        width: 100%;
+    }
+
+    #show-leaderboard-btn {
+        width: 100%;
+    }
+
+    .expense-container {
+        padding: 15px;
+    }
+
+    .expense-container h2 {
+        font-size: 22px;
+    }
+
+    th,
+    td {
+        font-size: 12px;
+    }
+
+}

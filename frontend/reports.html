@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Premium Reports & Analytics - Expense Tracker</title>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        body {
+            background-color: #f4f6f8;
+            color: #333;
+            display: flex;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .mobile-container {
+            width: 100%;
+            max-width: 480px;
+            background: #ffffff;
+            border-radius: 16px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            min-height: 90vh;
+        }
+
+        /* Header Navigation */
+        .app-header {
+            background-color: #1e293b;
+            color: #ffffff;
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .app-header h1 {
+            font-size: 18px;
+            font-weight: 600;
+        }
+
+        .premium-badge {
+            background-color: #f59e0b;
+            color: #1e293b;
+            font-size: 11px;
+            font-weight: 700;
+            padding: 4px 8px;
+            border-radius: 12px;
+            text-transform: uppercase;
+        }
+
+        .non-premium-badge {
+            background-color: #64748b;
+            color: #ffffff;
+            font-size: 11px;
+            font-weight: 700;
+            padding: 4px 8px;
+            border-radius: 12px;
+            text-transform: uppercase;
+        }
+
+        /* View Toggle (Daily / Weekly / Monthly) */
+        .tab-bar {
+            display: flex;
+            background-color: #e2e8f0;
+            padding: 4px;
+            margin: 16px;
+            border-radius: 10px;
+        }
+
+        .tab-btn {
+            flex: 1;
+            padding: 8px 0;
+            border: none;
+            background: transparent;
+            font-size: 13px;
+            font-weight: 600;
+            color: #64748b;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .tab-btn.active {
+            background-color: #ffffff;
+            color: #0f172a;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
+
+        /* Balance & Stats Cards */
+        .stats-card {
+            margin: 0 16px 16px 16px;
+            padding: 16px;
+            background: #f8fafc;
+            border-radius: 12px;
+            border: 1px solid #e2e8f0;
+        }
+
+        .balance-title {
+            font-size: 12px;
+            color: #64748b;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .balance-amount {
+            font-size: 24px;
+            font-weight: 700;
+            margin: 4px 0 12px 0;
+            color: #0f172a;
+        }
+
+        .stats-grid {
+            display: flex;
+            justify-content: space-between;
+            gap: 12px;
+            border-top: 1px dashed #cbd5e1;
+            padding-top: 12px;
+        }
+
+        .stat-box {
+            flex: 1;
+        }
+
+        .stat-label {
+            font-size: 11px;
+            color: #64748b;
+        }
+
+        .stat-value {
+            font-size: 15px;
+            font-weight: 600;
+            margin-top: 2px;
+        }
+
+        .income-text { color: #10b981; }
+        .expense-text { color: #ef4444; }
+
+        /* Action Toolbar / Download */
+        .action-toolbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 16px 12px 16px;
+        }
+
+        .section-title {
+            font-size: 15px;
+            font-weight: 700;
+            color: #1e293b;
+        }
+
+        .download-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 8px 14px;
+            background-color: #2563eb;
+            color: #ffffff;
+            border: none;
+            border-radius: 8px;
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .download-btn:hover:not(:disabled) {
+            background-color: #1d4ed8;
+        }
+
+        .download-btn:disabled {
+            background-color: #cbd5e1;
+            color: #94a3b8;
+            cursor: not-allowed;
+            border: 1px solid #cbd5e1;
+        }
+
+        /* Transaction List */
+        .transaction-list {
+            flex: 1;
+            padding: 0 16px 16px 16px;
+            overflow-y: auto;
+        }
+
+        .date-header {
+            font-size: 12px;
+            font-weight: 700;
+            color: #64748b;
+            margin: 12px 0 8px 0;
+            text-transform: uppercase;
+        }
+
+        .transaction-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px;
+            background: #ffffff;
+            border: 1px solid #f1f5f9;
+            border-radius: 10px;
+            margin-bottom: 8px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.02);
+        }
+
+        .txn-info {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+
+        .txn-category {
+            font-size: 14px;
+            font-weight: 600;
+            color: #1e293b;
+        }
+
+        .txn-desc {
+            font-size: 12px;
+            color: #64748b;
+        }
+
+        .txn-amount {
+            font-size: 14px;
+            font-weight: 700;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 40px 20px;
+            color: #94a3b8;
+            font-size: 14px;
+        }
+
+        .back-link {
+            text-align: center;
+            padding: 12px;
+            color: #2563eb;
+            font-size: 13px;
+            text-decoration: none;
+            font-weight: 600;
+            background: #f8fafc;
+            border-top: 1px solid #e2e8f0;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="mobile-container">
+        <!-- App Header -->
+        <header class="app-header">
+            <h1>Reports & Overview</h1>
+            <span id="user-status-badge" class="non-premium-badge">Free Plan</span>
+        </header>
+
+        <!-- Timeframe Selector -->
+        <div class="tab-bar">
+            <button class="tab-btn active" id="btn-daily" onclick="setTimeframe('daily')">Daily</button>
+            <button class="tab-btn" id="btn-weekly" onclick="setTimeframe('weekly')">Weekly</button>
+            <button class="tab-btn" id="btn-monthly" onclick="setTimeframe('monthly')">Monthly</button>
+        </div>
+
+        <!-- Financial Summary Card -->
+        <div class="stats-card">
+            <div class="balance-title">Net Balance</div>
+            <div class="balance-amount" id="net-balance">₹0.00</div>
+            <div class="stats-grid">
+                <div class="stat-box">
+                    <div class="stat-label">Total Income</div>
+                    <div class="stat-value income-text" id="total-income">+₹0.00</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-label">Total Expenses</div>
+                    <div class="stat-value expense-text" id="total-expense">-₹0.00</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Toolbar with Section Title & Download Button -->
+        <div class="action-toolbar">
+            <span class="section-title">Transactions</span>
+            <button id="download-btn" class="download-btn" onclick="handleDownload()" disabled>
+                <span>📥</span> Download File
+            </button>
+        </div>
+
+        <!-- Transactions Container -->
+        <div class="transaction-list" id="transaction-list">
+            <!-- Dynamically Rendered -->
+        </div>
+
+        <a href="expense.html" class="back-link">← Back to Main Expense Tracker</a>
+    </div>
+
+    <script src="reports.js"></script>
+</body>
+</html>
