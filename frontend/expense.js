@@ -2,7 +2,7 @@
 // Dynamically detects environment: switches to deployed backend when published, falls back to localhost
 const API_BASE_URL = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
     ? 'http://localhost:3000'
-    : 'https://your-backend-app.onrender.com'; // Replace with your actual deployed backend URL
+    : 'https://expense-lime-ten.vercel.app'; // Replace with your actual deployed backend URL
 
 const API_URL = `${API_BASE_URL}/expense`;
 const PURCHASE_URL = `${API_BASE_URL}/purchase`;

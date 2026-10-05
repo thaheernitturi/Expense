@@ -1,7 +1,7 @@
 // Base URL for API requests (Auto-detects localhost vs production)
 const API_BASE_URL = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
     ? 'http://localhost:3000'
-    : 'https://your-backend-app.onrender.com'; // Replace with your deployed backend URL
+    : 'https://expense-lime-ten.vercel.app'; // Replace with your deployed backend URL
 
 // DOM Elements
 const loginSection = document.getElementById('login-section');

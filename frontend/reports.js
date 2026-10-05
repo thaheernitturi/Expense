@@ -1,7 +1,7 @@
 // Dynamic Base URL for local development and production deployment
 const API_BASE_URL = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
     ? 'http://localhost:3000'
-    : 'https://your-backend.onrender.com'; // Replace with your production backend URL
+    : 'https://expense-lime-ten.vercel.app'; // Replace with your production backend URL
 
 let currentTimeframe = 'daily';
 let isPremiumUser = false;
