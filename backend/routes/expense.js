@@ -6,34 +6,27 @@ const authenticateToken = require('../middleware/auth');
 const { categorizeExpense, generateSpendingInsights } = require('../services/aiService');
 
 // ==================== 1. ADD EXPENSE (POST) ====================
+// Expense creation endpoint
 router.post('/add-expense', authenticateToken, async (req, res) => {
     try {
         const { amount, description, category } = req.body;
-        let finalCategory = category;
+        
+        // Fetch full user details using authenticated ID
+        const user = await User.findById(req.userId);
 
-        if (category === 'auto') {
-            finalCategory = await categorizeExpense(description);
-        }
-
-        const expense = new Expense({
+        const newExpense = new Expense({
             amount,
             description,
-            category: finalCategory,
-            userId: req.userId
+            category,
+            userId: user._id,
+            userName: user.name,
+            userEmail: user.email
         });
 
-        await expense.save();
-
-        // Increment user's total expenses count
-        await User.findByIdAndUpdate(
-            req.userId,
-            { $inc: { totalExpenses: Number(amount) } }
-        );
-
-        res.status(201).json(expense);
-    } catch (err) {
-        console.error('Add Expense Error:', err);
-        res.status(500).json({ message: 'Failed to add expense' });
+        await newExpense.save();
+        res.status(201).json(newExpense);
+    } catch (error) {
+        res.status(500).json({ message: 'Error adding expense' });
     }
 });
 

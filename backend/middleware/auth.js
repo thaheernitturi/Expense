@@ -2,17 +2,19 @@ const jwt = require('jsonwebtoken');
 
 const authenticateToken = (req, res, next) => {
     const authHeader = req.headers['authorization'];
-    const token = authHeader && authHeader.split(' ')[1]; // Expects "Bearer TOKEN"
-
-    if (!token) {
-        return res.status(401).json({ message: 'Authentication token required' });
+    
+    if (!authHeader) {
+        return res.status(401).json({ message: 'No token provided' });
     }
 
-    jwt.verify(token, 'YOUR_SECRET_KEY', (err, decoded) => {
+    // Extract token regardless of whether "Bearer " prefix is present
+    const token = authHeader.startsWith('Bearer ') ? authHeader.split(' ')[1] : authHeader;
+
+    jwt.verify(token, process.env.JWT_SECRET || 'fallback_secret_key', (err, decoded) => {
         if (err) {
             return res.status(403).json({ message: 'Invalid or expired token' });
         }
-        req.userId = decoded.userId; // Extract userId from token payload
+        req.userId = decoded.userId;
         next();
     });
 };
